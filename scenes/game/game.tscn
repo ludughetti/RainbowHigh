@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://degl0hwf82qn6"]
+
+[ext_resource type="Script" uid="uid://bt040nehryuw3" path="res://scripts/game/game_manager.gd" id="1_sul5r"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DeckContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DiscardContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerArea" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AIPlayerArea" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_sul5r")
