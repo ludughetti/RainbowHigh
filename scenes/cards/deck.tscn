@@ -1,6 +1,38 @@
 [gd_scene load_steps=2 format=3 uid="uid://dbrrhp4k0gsdu"]
 
-[ext_resource type="Script" uid="uid://rg6p5s62iljr" path="res://scripts/cards/deck.gd" id="1_g05o2"]
+[ext_resource type="Script" uid="uid://rg6p5s62iljr" path="res://scripts/cards/deck_manager.gd" id="1_g05o2"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Deck" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_g05o2")
+
+[node name="DeckContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CardImage" type="TextureRect" parent="DeckContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CardCount" type="Label" parent="DeckContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="DiscardContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CardImage" type="TextureRect" parent="DiscardContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CardCount" type="Label" parent="DiscardContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

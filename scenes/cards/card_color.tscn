@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dksabh6lipall"]
 
-[ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/card_with_text.gd" id="1_eofv5"]
+[ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/card_color.gd" id="1_gfjyj"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_up0cc"]
 
@@ -13,7 +13,7 @@ offset_right = -952.0
 offset_bottom = -348.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_eofv5")
+script = ExtResource("1_gfjyj")
 
 [node name="Image" type="TextureRect" parent="."]
 layout_mode = 1

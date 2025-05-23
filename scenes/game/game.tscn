@@ -13,11 +13,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="DiscardContainer" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="PlayerArea" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 40.0

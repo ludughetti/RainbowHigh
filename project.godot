@@ -13,3 +13,7 @@ config_version=5
 config/name="RainbowHigh"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+CardAssetsUtils="*res://scripts/utils/card_assets_utils.gd"

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyc5kepvag63x"]
+[gd_scene load_steps=3 format=3 uid="uid://bso6vgnminhvj"]
 
-[ext_resource type="Script" uid="uid://2hkoutjfagsx" path="res://scripts/cards/card_simple.gd" id="1_k4yo3"]
+[ext_resource type="Script" uid="uid://d0kqrc5dbaxnv" path="res://scripts/cards/card_joker.gd" id="1_6657g"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_up0cc"]
 
@@ -13,7 +13,7 @@ offset_right = -952.0
 offset_bottom = -348.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_k4yo3")
+script = ExtResource("1_6657g")
 
 [node name="Image" type="TextureRect" parent="."]
 layout_mode = 1
@@ -23,3 +23,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ImageTexture_up0cc")
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
