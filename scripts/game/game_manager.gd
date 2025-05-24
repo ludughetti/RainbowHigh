@@ -59,6 +59,7 @@ func play_turn(current_player: Player):
 	var drawn_card = deck.draw_card()
 	current_player.add_card_to_hand(drawn_card)
 	current_player.update_ui()
+	await get_tree().process_frame
 
 	# Wait for click and discard the card
 	var discarded_card := await wait_for_discard(current_player)
@@ -67,11 +68,13 @@ func play_turn(current_player: Player):
 
 	# Update player UI
 	current_player.update_ui()
+	await get_tree().process_frame
+	await get_tree().create_timer(2).timeout
 
 	# End turn, next player
 	end_turn()
 	
-func wait_for_discard(player: Player) -> Card:
+func wait_for_discard(player: Player) -> CardData:
 	return await player.discard_requested
 
 func draw_card_for(player_ref):

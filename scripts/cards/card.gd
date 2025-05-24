@@ -1,11 +1,9 @@
 extends Control
 class_name Card
 
-@export var card_name: String
 @export var card_type: CardConstants.CardType
-@export var card_texture_idle: Texture2D
-@export var card_texture_hover: Texture2D
-@export var card_texture_pressed: Texture2D
+
+var card_data: CardData
 
 signal card_clicked(card: Card)
 
@@ -14,14 +12,14 @@ func _ready():
 	$CardButton.connect("pressed", Callable(self, "_on_button_pressed"))
 
 func _on_button_pressed():
-	emit_signal("card_clicked", self)
+	emit_signal("card_clicked", card_data)
 
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		print("Card clicked!")
 		emit_signal("card_clicked", self)
 		
-func set_card_data(_card: Card):
+func set_card_data(_cardData: CardData):
 	# Should be overridden in subclasses
 	pass
 

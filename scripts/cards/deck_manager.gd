@@ -3,9 +3,9 @@ extends Control
 const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
 const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
 
-var full_deck: Array[Card] = []		# Full deck containing all cards
-var current_deck: Array[Card] = []	# Deck to be used in-game
-var discard_deck: Array[Card] = []	# Discard deck temporarily containing all discarded cards
+var full_deck: Array[CardData] = []		# Full deck containing all cards
+var current_deck: Array[CardData] = []	# Deck to be used in-game
+var discard_deck: Array[CardData] = []	# Discard deck temporarily containing all discarded cards
 
 func _ready():
 	populate_full_deck()
@@ -19,13 +19,13 @@ func populate_full_deck():
 	# Add all color cards
 	for i in 5:
 		for color in CardConstants.CardColor.values():
-			var card = ColorCardScene.instantiate()
+			var card = CardColorData.new()
 			card.setup_card(color)
 			full_deck.append(card)
 	
 	# Add jokers
 	for j in 2:
-		var joker = JokerCardScene.instantiate()
+		var joker = CardJokerData.new()
 		joker.setup_card()
 		full_deck.append(joker)
 		
@@ -38,7 +38,7 @@ func restart_deck():
 func shuffle():
 	current_deck.shuffle();
 	
-func draw_card() -> Card:
+func draw_card() -> CardData:
 	if current_deck.is_empty():
 		reshuffle_from_discard()
 	elif current_deck.size() - 1 == 0:
@@ -46,7 +46,7 @@ func draw_card() -> Card:
 		
 	return current_deck.pop_front()
 
-func discard_card(card: Card):
+func discard_card(card: CardData):
 	discard_deck.append(card)
 
 func reshuffle_from_discard():
@@ -59,7 +59,7 @@ func reshuffle_from_discard():
 	shuffle()	
 	$DiscardContainer/CardImage.visible = true
 
-func get_top_discarded_card() -> Card:
+func get_top_discarded_card() -> CardData:
 	if discard_deck.is_empty():
 		return null
 	return discard_deck[-1]

@@ -4,7 +4,7 @@ class_name Player
 const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
 const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
 
-var hand: Array[Card] = []
+var hand: Array[CardData] = []
 var game_manager = null
 
 # UI node where the cards are shown
@@ -25,24 +25,23 @@ func update_ui():
 	
 	# Add the updated cards again
 	for card in hand:
-		var new_card = create_new_card(card)
-		if new_card:
-			new_card.connect("card_clicked", Callable(self, "_on_card_clicked"))
-			hand_container.add_child(new_card)
+		var new_card_ui = create_new_card_ui(card)
+		new_card_ui.connect("card_clicked", Callable(self, "_on_card_clicked"))
+		hand_container.add_child(new_card_ui)
 
-func _on_card_clicked(card: Card) -> void:
+func _on_card_clicked(card: CardData) -> void:
 		emit_signal("discard_requested", card)
-		
-func create_new_card(card: Card) -> Card:
-	var new_card = null
+
+func create_new_card_ui(card: CardData) -> Card:
+	var new_card_ui = null
 	match card.card_type:
 		CardConstants.CardType.COLOR:
-			new_card = ColorCardScene.instantiate()			
+			new_card_ui = ColorCardScene.instantiate()
 		CardConstants.CardType.JOKER:
-			new_card = JokerCardScene.instantiate()
+			new_card_ui = JokerCardScene.instantiate()
 		_:
 			push_error("Unknown card type: %s" % card.card_type)
-			return new_card
+			return new_card_ui
 	
-	new_card.set_card_data(card)
-	return new_card
+	new_card_ui.set_card_data(card)
+	return new_card_ui
