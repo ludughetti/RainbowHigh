@@ -1,8 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://dksabh6lipall"]
 
 [ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/card_color.gd" id="1_gfjyj"]
-[ext_resource type="Texture2D" uid="uid://0ircrscna8gx" path="res://assets/cards/core/Joker/JOKER_Idle.png" id="2_u7mip"]
-[ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/Utils/card_label_setting.tres" id="3_u7mip"]
+[ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/utils/card_label_setting.tres" id="3_u7mip"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_6chm6"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_mmf5l"]
 
@@ -21,7 +22,7 @@ custom_minimum_size = Vector2(115.2, 154.4)
 offset_right = 144.0
 offset_bottom = 193.0
 scale = Vector2(0.8, 0.8)
-texture_normal = ExtResource("2_u7mip")
+texture_normal = SubResource("ImageTexture_6chm6")
 texture_pressed = SubResource("ImageTexture_mmf5l")
 texture_hover = SubResource("ImageTexture_k3un5")
 

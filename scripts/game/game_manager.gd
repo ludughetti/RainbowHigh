@@ -51,31 +51,43 @@ func run_game_loop():
 		await play_turn(current_player)
 	
 func play_turn(current_player: Player):
+	# Set turn active in player
+	current_player.toggle_is_player_turn(true)
+	
 	# Show UI
 	current_player.update_ui()
-	await get_tree().process_frame
+	await get_tree().create_timer(2).timeout
 
 	# Draw card and update UI
 	var drawn_card = deck.draw_card()
 	current_player.add_card_to_hand(drawn_card)
 	current_player.update_ui()
 	await get_tree().process_frame
+	
+	if current_player.has_full_rainbow():
+		show_victory_screen(current_player)
+		is_game_active = false
+		return  # Exit the turn loop, game ends
 
-	# Wait for click and discard the card
-	var discarded_card := await wait_for_discard(current_player)
-	current_player.discard_from_hand(discarded_card)
-	deck.discard_card(discarded_card)
+	# selected_card will be null if it's a pass, and CardData if it's discard
+	var selected_card = await current_player.action_requested
+	if selected_card != null:
+		current_player.discard_from_hand(selected_card)
+		deck.discard_card(selected_card)
 
 	# Update player UI
 	current_player.update_ui()
+	current_player.toggle_is_player_turn(false)
 	await get_tree().process_frame
-	await get_tree().create_timer(2).timeout
 
 	# End turn, next player
 	end_turn()
+
+func show_victory_screen(current_player: Player):
+	print("You win!")
 	
-func wait_for_discard(player: Player) -> CardData:
-	return await player.discard_requested
+func wait_for_action(player: Player) -> CardData:
+	return await player.action_requested
 
 func draw_card_for(player_ref):
 	var drawn_card = deck.draw_card()
@@ -87,3 +99,5 @@ func discard_from_hand(player_ref, card):
 
 func end_turn():
 	current_player_index = (current_player_index + 1) % players.size()
+	print("Turn ended, waiting for next player...")
+	await get_tree().create_timer(2).timeout

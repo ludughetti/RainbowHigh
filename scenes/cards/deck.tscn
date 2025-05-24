@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://rg6p5s62iljr" path="res://scripts/cards/deck_manager.gd" id="1_g05o2"]
 [ext_resource type="Texture2D" uid="uid://c1nh20sglbx1q" path="res://assets/cards/core/Reverse.png" id="2_u5uvd"]
-[ext_resource type="LabelSettings" uid="uid://u2255qnvqc4t" path="res://assets/Utils/deck_counter_label_setting.tres" id="4_qng5k"]
+[ext_resource type="LabelSettings" uid="uid://u2255qnvqc4t" path="res://assets/utils/deck_counter_label_setting.tres" id="4_qng5k"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6chm6"]
-load_path = "res://.godot/imported/Blue.png-9207638f44da4c251bebe080b2f65386.ctex"
+[sub_resource type="ImageTexture" id="ImageTexture_dea8j"]
 
 [node name="Deck" type="Control"]
 layout_mode = 3
@@ -61,7 +60,7 @@ offset_bottom = 220.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-texture = SubResource("CompressedTexture2D_6chm6")
+texture = SubResource("ImageTexture_dea8j")
 
 [node name="CardCount" type="Label" parent="DiscardContainer"]
 layout_mode = 1
