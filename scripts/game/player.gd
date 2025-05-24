@@ -4,6 +4,7 @@ class_name Player
 const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
 const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
 
+var player_name: String
 var hand: Array[CardData] = []
 var is_player_turn: bool = false
 
@@ -15,6 +16,9 @@ signal action_requested(card: Card)
 
 func _ready():
 	pass_button.connect("pressed", Callable(self, "_on_pass_pressed"))
+	
+func set_up_player(new_name: String):
+	player_name = new_name
 
 func add_card_to_hand(card):
 	hand.append(card)

@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3x8xttwscjfy"]
+
+[ext_resource type="Script" uid="uid://crupis73keduh" path="res://scripts/game/result_screen.gd" id="1_42yad"]
+[ext_resource type="LabelSettings" uid="uid://drsgihudq23ld" path="res://assets/utils/menu_button_label_setting.tres" id="1_n2hk5"]
+
+[node name="ResultScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_42yad")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultLabel" type="Label" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -17.5
+offset_right = 70.0
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player won!"
+label_settings = ExtResource("1_n2hk5")
+
+[node name="MainMenuButton" type="Button" parent="Background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -202.0
+offset_top = -98.0
+offset_right = -82.0
+offset_bottom = -48.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Main menu"

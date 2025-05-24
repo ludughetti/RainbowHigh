@@ -7,6 +7,7 @@ extends Node
 const DeckScene = preload("res://scenes/cards/deck.tscn")
 const PlayerScene = preload("res://scenes/game/player.tscn")
 #const AIPlayerScene = preload("res://scenes/AIPlayer.tscn")
+const ResultScene = preload("res://scenes/game/result_screen.tscn")
 
 var deck
 var players = []
@@ -29,6 +30,7 @@ func setup_deck():
 	
 func setup_players():
 	var player = PlayerScene.instantiate()
+	player.set_up_player("Player")
 	players.append(player)
 	player_area.add_child(player)
 	
@@ -46,9 +48,16 @@ func start_game():
 	call_deferred("run_game_loop")
 
 func run_game_loop():
+	var current_player
+	
 	while is_game_active:
-		var current_player = players[current_player_index]
+		current_player = players[current_player_index]
 		await play_turn(current_player)
+	
+	# Get the Result scene
+	var result_scene = ResultScene.instantiate()
+	Global.winner_name = current_player.player_name
+	get_tree().change_scene_to_file("res://scenes/game/result_screen.tscn")
 	
 func play_turn(current_player: Player):
 	# Set turn active in player
@@ -65,9 +74,9 @@ func play_turn(current_player: Player):
 	await get_tree().process_frame
 	
 	if current_player.has_full_rainbow():
-		show_victory_screen(current_player)
+		# Set this to false and exit the turn loop
 		is_game_active = false
-		return  # Exit the turn loop, game ends
+		return  
 
 	# selected_card will be null if it's a pass, and CardData if it's discard
 	var selected_card = await current_player.action_requested

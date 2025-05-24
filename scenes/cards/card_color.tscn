@@ -19,6 +19,7 @@ script = ExtResource("1_gfjyj")
 
 [node name="CardButton" type="TextureButton" parent="."]
 custom_minimum_size = Vector2(115.2, 154.4)
+layout_mode = 0
 offset_right = 144.0
 offset_bottom = 193.0
 scale = Vector2(0.8, 0.8)
