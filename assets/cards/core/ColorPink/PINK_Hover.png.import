@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drdiry7upqyqr"
-path="res://.godot/imported/Green.png-4211607e95ecc74a8899c6a9686a151c.ctex"
+uid="uid://bc774m8mtiboo"
+path="res://.godot/imported/PINK_Hover.png-09991eca5410296962fa85b5d0d35182.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cards/core/Green.png"
-dest_files=["res://.godot/imported/Green.png-4211607e95ecc74a8899c6a9686a151c.ctex"]
+source_file="res://assets/cards/core/ColorPink/PINK_Hover.png"
+dest_files=["res://.godot/imported/PINK_Hover.png-09991eca5410296962fa85b5d0d35182.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5s1nucfg7tpg"
-path="res://.godot/imported/Orange.png-4961527b62f34cba1a833699a42e5a8e.ctex"
+uid="uid://b7utylkj8jds1"
+path="res://.godot/imported/RED_Hover.png-17fd7b4074ecb4728b2e1d96861ea11c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cards/core/Orange.png"
-dest_files=["res://.godot/imported/Orange.png-4961527b62f34cba1a833699a42e5a8e.ctex"]
+source_file="res://assets/cards/core/ColorRed/RED_Hover.png"
+dest_files=["res://.godot/imported/RED_Hover.png-17fd7b4074ecb4728b2e1d96861ea11c.ctex"]
 
 [params]
 

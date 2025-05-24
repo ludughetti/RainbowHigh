@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q3mj8b4rn0og"
-path="res://.godot/imported/Violet.png-ad0d07a33fd5545a6ba9c1117a4dfad6.ctex"
+uid="uid://bt1uiqeee5pve"
+path="res://.godot/imported/YELLOW_Idle.png-21e15063a540ff8c0532cfc194d3b17e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cards/core/Violet.png"
-dest_files=["res://.godot/imported/Violet.png-ad0d07a33fd5545a6ba9c1117a4dfad6.ctex"]
+source_file="res://assets/cards/core/ColorYellow/YELLOW_Idle.png"
+dest_files=["res://.godot/imported/YELLOW_Idle.png-21e15063a540ff8c0532cfc194d3b17e.ctex"]
 
 [params]
 
