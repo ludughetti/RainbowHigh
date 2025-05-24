@@ -9,4 +9,4 @@ func set_ui_data():
 	$CardButton.texture_normal = card_data.card_texture_idle
 	$CardButton.texture_hover = card_data.card_texture_hover
 	$CardButton.texture_pressed = card_data.card_texture_pressed
-	$Description.text = card_data.card_name
+	$CardButton/Description.text = card_data.card_name

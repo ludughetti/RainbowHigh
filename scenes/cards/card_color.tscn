@@ -27,17 +27,17 @@ texture_normal = SubResource("ImageTexture_6chm6")
 texture_pressed = SubResource("ImageTexture_mmf5l")
 texture_hover = SubResource("ImageTexture_k3un5")
 
-[node name="Description" type="Label" parent="."]
+[node name="Description" type="Label" parent="CardButton"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -21.6
-offset_top = -42.4
-offset_right = 24.4
-offset_bottom = -26.4
+offset_left = -22.0
+offset_top = -51.0
+offset_right = 24.0
+offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "ORANGE"

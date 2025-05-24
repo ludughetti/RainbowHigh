@@ -6,7 +6,7 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1070.0
-offset_bottom = 205.0
+offset_bottom = 160.0
 script = ExtResource("1_6w7gq")
 
 [node name="HandContainer" type="HBoxContainer" parent="."]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://borg2nvem6q5u"]
+[gd_scene load_steps=4 format=3 uid="uid://borg2nvem6q5u"]
 
 [ext_resource type="Script" uid="uid://cj4ui4ll0bq0x" path="res://scripts/game/main_menu.gd" id="1_ngy02"]
 [ext_resource type="LabelSettings" uid="uid://drsgihudq23ld" path="res://assets/utils/menu_button_label_setting.tres" id="1_sbiqi"]
+[ext_resource type="Texture2D" uid="uid://bvm7ch7lf0whb" path="res://assets/backgrounds/Office_1280x720.png" id="2_e66b0"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,6 +12,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ngy02")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -36.0
+offset_right = 64.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_e66b0")
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 1

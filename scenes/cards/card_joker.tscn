@@ -1,9 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c8ykqajg0s438"]
 
 [ext_resource type="Script" uid="uid://d0kqrc5dbaxnv" path="res://scripts/cards/card_joker.gd" id="1_6657g"]
+[ext_resource type="Texture2D" uid="uid://0ircrscna8gx" path="res://assets/cards/core/Joker/JOKER_Idle.png" id="2_ec6o7"]
 [ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/utils/card_label_setting.tres" id="3_ec6o7"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_d8hx1"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_t2bfx"]
 
@@ -24,24 +23,24 @@ layout_mode = 1
 offset_right = 144.0
 offset_bottom = 193.0
 scale = Vector2(0.8, 0.8)
-texture_normal = SubResource("ImageTexture_d8hx1")
+texture_normal = ExtResource("2_ec6o7")
 texture_pressed = SubResource("ImageTexture_t2bfx")
 texture_hover = SubResource("ImageTexture_p1fea")
 
-[node name="Description" type="Label" parent="."]
+[node name="Description" type="Label" parent="CardButton"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.503
 anchor_top = 0.476
 anchor_right = 0.503
 anchor_bottom = 0.476
-offset_left = -17.9456
-offset_top = -6.4944
-offset_right = 22.0544
-offset_bottom = 13.5056
+offset_left = -24.432
+offset_top = -6.868
+offset_right = 15.568
+offset_bottom = 13.132
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.9, 0.9)
+scale = Vector2(1.2, 1.2)
 text = "JOKER"
 label_settings = ExtResource("3_ec6o7")
 horizontal_alignment = 1

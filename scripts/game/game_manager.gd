@@ -55,9 +55,7 @@ func run_game_loop():
 		await play_turn(current_player)
 	
 	# Get the Result scene
-	var result_scene = ResultScene.instantiate()
-	Global.winner_name = current_player.player_name
-	get_tree().change_scene_to_file("res://scenes/game/result_screen.tscn")
+	show_victory_screen(current_player)
 	
 func play_turn(current_player: Player):
 	# Set turn active in player
@@ -93,7 +91,13 @@ func play_turn(current_player: Player):
 	end_turn()
 
 func show_victory_screen(current_player: Player):
-	print("You win!")
+	print("%s wins!" % current_player.player_name)
+	await get_tree().create_timer(2).timeout
+	
+	#Load end result scene
+	var result_scene = ResultScene.instantiate()
+	Global.winner_name = current_player.player_name
+	get_tree().change_scene_to_file("res://scenes/game/result_screen.tscn")
 	
 func wait_for_action(player: Player) -> CardData:
 	return await player.action_requested
