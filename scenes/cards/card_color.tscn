@@ -1,30 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://dksabh6lipall"]
+[gd_scene load_steps=6 format=3 uid="uid://dksabh6lipall"]
 
 [ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/card_color.gd" id="1_gfjyj"]
+[ext_resource type="Texture2D" uid="uid://0ircrscna8gx" path="res://assets/cards/core/Joker/JOKER_Idle.png" id="2_u7mip"]
+[ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/Utils/card_label_setting.tres" id="3_u7mip"]
 
-[sub_resource type="ImageTexture" id="ImageTexture_up0cc"]
+[sub_resource type="ImageTexture" id="ImageTexture_mmf5l"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_k3un5"]
 
 [node name="Card" type="Control"]
+custom_minimum_size = Vector2(115.2, 154.4)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -952.0
-offset_bottom = -348.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 115.2
+offset_bottom = 154.4
 script = ExtResource("1_gfjyj")
 
-[node name="Image" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ImageTexture_up0cc")
+[node name="CardButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(115.2, 154.4)
+offset_right = 144.0
+offset_bottom = 193.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("2_u7mip")
+texture_pressed = SubResource("ImageTexture_mmf5l")
+texture_hover = SubResource("ImageTexture_k3un5")
 
 [node name="Description" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -21.6
+offset_top = -42.4
+offset_right = 24.4
+offset_bottom = -26.4
+grow_horizontal = 2
+grow_vertical = 0
+text = "ORANGE"
+label_settings = ExtResource("3_u7mip")
+horizontal_alignment = 1
+vertical_alignment = 1

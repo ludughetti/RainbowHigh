@@ -11,7 +11,7 @@ const PlayerScene = preload("res://scenes/game/player.tscn")
 var deck
 var players = []
 var current_player_index: int = 0
-var current_turn = 0
+var is_game_active: bool = true
 #var ai_player = preload("res://scenes/AIPlayer.tscn")
 
 func _ready():
@@ -20,16 +20,16 @@ func _ready():
 	# Instance and add player
 	setup_players()
 	# Start the game
-	start_game();
+	start_game()
 	
 func setup_deck():
 	deck = DeckScene.instantiate()
-	deck.reset_deck()
+	deck.restart_deck()
 	deck_container.add_child(deck)
 	
 func setup_players():
 	var player = PlayerScene.instantiate()
-	players.add(player)
+	players.append(player)
 	player_area.add_child(player)
 	
 	# Instance and add AI player
@@ -38,17 +38,41 @@ func setup_players():
 
 func start_game():
 	# Deal initial 5 cards to each player
-	for i in range(5):
-		for player in players:
+	for player in players:
+		for i in range(5):
 			var card = deck.draw_card()
-			player.add_card(card)
+			player.add_card_to_hand(card)
 			
-	start_turn()
+	call_deferred("run_game_loop")
 
-func start_turn():
-	#var current_player = players[current_player_index]
-	#current_player.start_turn()
-	pass
+func run_game_loop():
+	while is_game_active:
+		var current_player = players[current_player_index]
+		await play_turn(current_player)
+	
+func play_turn(current_player: Player):
+	# Show UI
+	current_player.update_ui()
+	await get_tree().process_frame
+
+	# Draw card and update UI
+	var drawn_card = deck.draw_card()
+	current_player.add_card_to_hand(drawn_card)
+	current_player.update_ui()
+
+	# Wait for click and discard the card
+	var discarded_card := await wait_for_discard(current_player)
+	current_player.discard_from_hand(discarded_card)
+	deck.discard_card(discarded_card)
+
+	# Update player UI
+	current_player.update_ui()
+
+	# End turn, next player
+	end_turn()
+	
+func wait_for_discard(player: Player) -> Card:
+	return await player.discard_requested
 
 func draw_card_for(player_ref):
 	var drawn_card = deck.draw_card()
@@ -60,4 +84,3 @@ func discard_from_hand(player_ref, card):
 
 func end_turn():
 	current_player_index = (current_player_index + 1) % players.size()
-	start_turn()

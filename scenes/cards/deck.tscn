@@ -1,38 +1,82 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbrrhp4k0gsdu"]
+[gd_scene load_steps=5 format=3 uid="uid://dbrrhp4k0gsdu"]
 
 [ext_resource type="Script" uid="uid://rg6p5s62iljr" path="res://scripts/cards/deck_manager.gd" id="1_g05o2"]
+[ext_resource type="Texture2D" uid="uid://c1nh20sglbx1q" path="res://assets/cards/core/Reverse.png" id="2_u5uvd"]
+[ext_resource type="LabelSettings" uid="uid://u2255qnvqc4t" path="res://assets/Utils/deck_counter_label_setting.tres" id="4_qng5k"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6chm6"]
+load_path = "res://.godot/imported/Blue.png-9207638f44da4c251bebe080b2f65386.ctex"
 
 [node name="Deck" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -145.0
+offset_right = 145.0
+offset_bottom = 220.0
+grow_horizontal = 2
 script = ExtResource("1_g05o2")
 
 [node name="DeckContainer" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -144.0
+offset_bottom = 220.0
+grow_horizontal = 0
 
 [node name="CardImage" type="TextureRect" parent="DeckContainer"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+texture = ExtResource("2_u5uvd")
 
 [node name="CardCount" type="Label" parent="DeckContainer"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -14.0
+offset_top = -31.0
+offset_right = 16.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "52"
+label_settings = ExtResource("4_qng5k")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DiscardContainer" type="Control" parent="."]
+layout_mode = 1
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 144.0
+offset_bottom = 220.0
 
 [node name="CardImage" type="TextureRect" parent="DiscardContainer"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+texture = SubResource("CompressedTexture2D_6chm6")
 
 [node name="CardCount" type="Label" parent="DiscardContainer"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -14.0
+offset_top = -31.0
+offset_right = 16.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "0"
+label_settings = ExtResource("4_qng5k")
+horizontal_alignment = 1
+vertical_alignment = 1

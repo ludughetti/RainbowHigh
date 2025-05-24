@@ -1,10 +1,7 @@
-extends Node2D
+extends Control
 
-const ColorCard: PackedScene = preload("res://scenes/cards/card_color.tscn")
-const JokerCard: PackedScene = preload("res://scenes/cards/card_joker.tscn")
-
-@onready var deck_control = $DeckContainer
-@onready var discard_control = $DiscardContainer
+const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
+const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
 
 var full_deck: Array[Card] = []		# Full deck containing all cards
 var current_deck: Array[Card] = []	# Deck to be used in-game
@@ -13,7 +10,7 @@ var discard_deck: Array[Card] = []	# Discard deck temporarily containing all dis
 func _ready():
 	populate_full_deck()
 	restart_deck()
-	update_id()
+	update_ui()
 	
 # Create all cards and add them to the full deck
 func populate_full_deck():
@@ -22,13 +19,13 @@ func populate_full_deck():
 	# Add all color cards
 	for i in 5:
 		for color in CardConstants.CardColor.values():
-			var card = ColorCard.instantiate()
+			var card = ColorCardScene.instantiate()
 			card.setup_card(color)
 			full_deck.append(card)
 	
 	# Add jokers
 	for j in 2:
-		var joker = JokerCard.instantiate()
+		var joker = JokerCardScene.instantiate()
 		joker.setup_card()
 		full_deck.append(joker)
 		
@@ -44,8 +41,8 @@ func shuffle():
 func draw_card() -> Card:
 	if current_deck.is_empty():
 		reshuffle_from_discard()
-	if current_deck.is_empty():
-		return null  # Nothing to draw
+	elif current_deck.size() - 1 == 0:
+		$DiscardContainer/CardImage.visible = false
 		
 	return current_deck.pop_front()
 
@@ -56,10 +53,11 @@ func reshuffle_from_discard():
 	# If nothing to reshuffle, early return
 	if discard_deck.is_empty():
 		return  
-		
+	
 	current_deck = discard_deck.duplicate()
 	discard_deck.clear()
 	shuffle()	
+	$DiscardContainer/CardImage.visible = true
 
 func get_top_discarded_card() -> Card:
 	if discard_deck.is_empty():
@@ -70,12 +68,19 @@ func reset_all():
 	discard_deck.clear()
 	restart_deck()
 	
-func update_id():
-	deck_control.get_node("CardCount").text = str(current_deck.size())
-	discard_control.get_node("CardCount").text = str(discard_deck.size())
+@onready var deck_control = $DeckContainer
+@onready var deck_image = $DeckContainer/CardImage
+@onready var deck_count = $DeckContainer/CardCount
+@onready var discard_control = $DiscardContainer
+@onready var discard_image = $DiscardContainer/CardImage
+@onready var discard_count = $DiscardContainer/CardCount
+
+func update_ui():
+	$DeckContainer/CardCount.text = str(current_deck.size())
+	$DiscardContainer/CardCount.text = str(discard_deck.size())
 	
 	var top_card = get_top_discarded_card()
-	if top_card:
-		discard_control.get_node("CardImage").texture = top_card.get_card_texture()
+	if !discard_deck.is_empty() and top_card:
+		$DiscardContainer/CardImage.texture = top_card.get_card_texture()
 	else:
-		discard_control.get_node("CardImage").texture = null
+		$DiscardContainer/CardImage.texture = null
