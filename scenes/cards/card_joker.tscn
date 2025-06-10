@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c8ykqajg0s438"]
 
-[ext_resource type="Script" uid="uid://d0kqrc5dbaxnv" path="res://scripts/cards/card_joker.gd" id="1_6657g"]
+[ext_resource type="Script" uid="uid://d0kqrc5dbaxnv" path="res://scripts/cards/joker/card_joker.gd" id="1_6657g"]
 [ext_resource type="Texture2D" uid="uid://0ircrscna8gx" path="res://assets/cards/core/Joker/JOKER_Idle.png" id="2_ec6o7"]
 [ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/utils/card_label_setting.tres" id="3_ec6o7"]
 

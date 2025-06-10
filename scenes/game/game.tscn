@@ -63,11 +63,31 @@ offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="AIPlayerArea" type="Control" parent="."]
+[node name="AIPlayerOpposite" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 410.0
+offset_left = 379.5
+offset_top = 50.0
+offset_right = 779.5
+offset_bottom = 200.0
+
+[node name="AIPlayerLeft" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 250.0
+offset_top = 125.0
+offset_right = 650.0
+offset_bottom = 275.0
+rotation = 1.5708
+
+[node name="AIPlayerRight" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 900.0
+offset_top = 525.0
+offset_right = 1300.0
+offset_bottom = 675.0
+rotation = -1.5708
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_sul5r")

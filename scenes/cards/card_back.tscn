@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dswc2l2576mbq"]
+
+[ext_resource type="Script" uid="uid://62i2ri4a87la" path="res://scripts/cards/hidden/card_back.gd" id="1_rhbud"]
+[ext_resource type="Texture2D" uid="uid://c1nh20sglbx1q" path="res://assets/cards/core/Reverse.png" id="2_rhbud"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_t2bfx"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_p1fea"]
+
+[node name="Card" type="Control"]
+custom_minimum_size = Vector2(115.2, 154.4)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 115.2
+offset_bottom = 154.4
+script = ExtResource("1_rhbud")
+back_texture = ExtResource("2_rhbud")
+
+[node name="CardButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(115.2, 154.4)
+layout_mode = 1
+offset_right = 144.0
+offset_bottom = 193.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("2_rhbud")
+texture_pressed = SubResource("ImageTexture_t2bfx")
+texture_hover = SubResource("ImageTexture_p1fea")

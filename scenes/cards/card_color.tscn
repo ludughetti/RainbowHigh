@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dksabh6lipall"]
 
-[ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/card_color.gd" id="1_gfjyj"]
+[ext_resource type="Script" uid="uid://bx51ey8l42rtk" path="res://scripts/cards/colors/card_color.gd" id="1_gfjyj"]
 [ext_resource type="LabelSettings" uid="uid://mxa2y13gnael" path="res://assets/utils/card_label_setting.tres" id="3_u7mip"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_6chm6"]
