@@ -35,6 +35,12 @@ func setup_players():
 	players.append(player)
 	player_area.add_child(player)
 	
+	# AI Right
+	var ai_right = AIPlayerScene.instantiate()
+	ai_right.set_up_player("AI Right")
+	players.append(ai_right)
+	ai_right_area.add_child(ai_right)
+	
 	# AI Opposite
 	var ai_opposite = AIPlayerScene.instantiate()
 	ai_opposite.set_up_player("AI Opposite")
@@ -46,12 +52,6 @@ func setup_players():
 	ai_left.set_up_player("AI Left")
 	players.append(ai_left)
 	ai_left_area.add_child(ai_left)
-
-	# AI Right
-	var ai_right = AIPlayerScene.instantiate()
-	ai_right.set_up_player("AI Right")
-	players.append(ai_right)
-	ai_right_area.add_child(ai_right)
 
 func start_game():
 	# Deal initial 5 cards to each player
@@ -79,6 +79,9 @@ func play_turn(current_player: BasePlayer):
 	# Set turn active in player
 	current_player.toggle_is_player_turn(true)
 	
+	# Print who's playing
+	print("Starting %s turn..." % current_player.player_name)
+	
 	# Show UI
 	current_player.update_ui()
 	await get_tree().create_timer(2).timeout
@@ -93,6 +96,10 @@ func play_turn(current_player: BasePlayer):
 		# Set this to false and exit the turn loop
 		is_game_active = false
 		return  
+		
+	# 🧠 AI logic trigger
+	if current_player is AIPlayer:
+		current_player.ai_take_turn()
 
 	# selected_card will be null if it's a pass, and CardData if it's discard
 	var selected_card = await current_player.action_requested
@@ -104,9 +111,11 @@ func play_turn(current_player: BasePlayer):
 	current_player.update_ui()
 	current_player.toggle_is_player_turn(false)
 	await get_tree().process_frame
+	
+	print("Turn finished for %s" % current_player.player_name)
 
 	# End turn, next player
-	end_turn()
+	await end_turn()
 
 func show_victory_screen(current_player: BasePlayer):
 	print("%s wins!" % current_player.player_name)

@@ -14,16 +14,16 @@ func update_ui():
 		hand_container.add_child(card_back)
 
 func ai_take_turn():
+	await get_tree().create_timer(action_delay).timeout
 	print("%s is taking their turn..." % player_name)
 
 	if hand.size() > 7:
 		print("%s discards card" % player_name)
 		var to_discard = pick_discard_card()
 		emit_signal("action_requested", to_discard)
-		return
-
-	print("%s passes" % player_name)
-	emit_signal("action_requested", null)
+	else:
+		print("%s passes" % player_name)
+		emit_signal("action_requested", null)
 
 func pick_discard_card() -> CardData:
 	# Return the first card in hand
