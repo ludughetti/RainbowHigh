@@ -32,6 +32,42 @@ const COLOR_CARD_TEXTURES_PRESSED := {
 	ConstantsUtils.CardColor.VIOLET: preload("res://assets/cards/core/ColorViolet/VIOLET_Pressed.png")
 }
 
+const CHARACTER_CARD_TEXTURES_IDLE := {
+	CardConstants.CardCharacter.MATH_TEACHER: preload("res://assets/cards/character/math_teacher/MATH_TEACHER_Idle.png"),
+	#CardConstants.CardCharacter.SPORTSY: preload("res://assets/cards/character/Sportsy_Idle.png"),
+	#CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/PromQueen_Idle.png"),
+	#CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/Nosey_Idle.png"),
+	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png"),
+	#CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/TheaterKid_Idle.png"),
+	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
+	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png")
+}
+
+const CHARACTER_CARD_TEXTURES_HOVER := {
+	CardConstants.CardCharacter.MATH_TEACHER: preload("res://assets/cards/character/math_teacher/MATH_TEACHER_Hover.png"),
+	#CardConstants.CardCharacter.SPORTSY: preload("res://assets/cards/character/Sportsy_Idle.png"),
+	#CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/PromQueen_Idle.png"),
+	#CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/Nosey_Idle.png"),
+	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png"),
+	#CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/TheaterKid_Idle.png"),
+	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
+	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png")
+}
+
+const CHARACTER_CARD_TEXTURES_PRESSED := {
+	CardConstants.CardCharacter.MATH_TEACHER: preload("res://assets/cards/character/math_teacher/MATH_TEACHER_Pressed.png"),
+	#CardConstants.CardCharacter.SPORTSY: preload("res://assets/cards/character/Sportsy_Idle.png"),
+	#CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/PromQueen_Idle.png"),
+	#CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/Nosey_Idle.png"),
+	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png"),
+	#CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/TheaterKid_Idle.png"),
+	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
+	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png")
+}
+
 const JOKER_CARD_TEXTURE_IDLE = preload("res://assets/cards/core/Joker/JOKER_Idle.png")
 const JOKER_CARD_TEXTURE_HOVER = preload("res://assets/cards/core/Joker/JOKER_Idle.png")
 const JOKER_CARD_TEXTURE_PRESSED = preload("res://assets/cards/core/Joker/JOKER_Idle.png")
@@ -58,3 +94,12 @@ func get_joker_card_texture_pressed() -> Texture2D:
 	
 func get_reverse_card_texture() -> Texture2D:
 	return REVERSE_CARD_TEXTURE
+
+func get_character_card_texture_idle(character: CardConstants.CardCharacter) -> Texture2D:
+	return CHARACTER_CARD_TEXTURES_IDLE.get(character, REVERSE_CARD_TEXTURE)
+
+func get_character_card_texture_hover(character: CardConstants.CardCharacter) -> Texture2D:
+	return CHARACTER_CARD_TEXTURES_HOVER.get(character, REVERSE_CARD_TEXTURE)
+
+func get_character_card_texture_pressed(character: CardConstants.CardCharacter) -> Texture2D:
+	return CHARACTER_CARD_TEXTURES_PRESSED.get(character, REVERSE_CARD_TEXTURE)

@@ -3,6 +3,7 @@ class_name BasePlayer
 
 const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
 const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
+const CardCharacterScene: PackedScene = preload("res://scenes/cards/card_character.tscn")
 const CardBackScene: PackedScene = preload("res://scenes/cards/card_back.tscn")
 
 var player_name: String
@@ -45,6 +46,9 @@ func create_new_card_ui(card: CardData, card_type: CardConstants.CardType) -> Ca
 			new_card_ui.set_card_data(card)
 		CardConstants.CardType.JOKER:
 			new_card_ui = JokerCardScene.instantiate()
+			new_card_ui.set_card_data(card)
+		CardConstants.CardType.CHARACTER:
+			new_card_ui = CardCharacterScene.instantiate()
 			new_card_ui.set_card_data(card)
 		_:
 			push_error("Unknown card type: %s" % card.card_type)

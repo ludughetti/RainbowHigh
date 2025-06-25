@@ -61,6 +61,13 @@ func start_game():
 			var card = deck.draw_card()
 			player.add_card_to_hand(card)
 			print("Dealt card: " + card.card_name)
+			
+		# TEMP ------------------
+		if player.player_name == "Player":
+			var special_card := CardCharacterData.new()
+			special_card.setup_card(CardConstants.CardCharacter.MATH_TEACHER)
+			player.add_card_to_hand(special_card)
+			
 		player.update_ui()
 			
 	call_deferred("run_game_loop")
@@ -97,13 +104,20 @@ func play_turn(current_player: BasePlayer):
 		is_game_active = false
 		return  
 		
-	# 🧠 AI logic trigger
+	# AI logic trigger
 	if current_player is AIPlayer:
 		current_player.ai_take_turn()
 
 	# selected_card will be null if it's a pass, and CardData if it's discard
 	var selected_card = await current_player.action_requested
 	if selected_card != null:
+		# Trigger effect if it's a character card
+		if selected_card.card_type == CardConstants.CardType.CHARACTER:
+			on_character_card_effect(
+				(selected_card as CardCharacterData).character_type,
+				current_player
+			)
+			
 		current_player.discard_from_hand(selected_card)
 		deck.discard_card(selected_card)
 
@@ -140,3 +154,44 @@ func end_turn():
 	current_player_index = (current_player_index + 1) % players.size()
 	print("Turn ended, waiting for next player...")
 	await get_tree().create_timer(2).timeout
+	
+# Force players to discard if they have more than 7 cards and apply effects if applicable
+func enforce_hand_limit(player: BasePlayer) -> void:
+	while player.hand.size() > 7:
+		print("%s has too many cards. Forcing discard..." % player.player_name)
+		player.update_ui()
+		
+		# If it's an AI, pick and emit immediately
+		if player is AIPlayer:
+			var ai_card_to_discard = (player as AIPlayer).pick_discard_card()
+			player.emit_signal("action_requested", ai_card_to_discard)
+		
+		var card_to_discard: CardData = await player.action_requested
+		if card_to_discard:
+			# 🔁 If another character card is discarded, apply its effect
+			if card_to_discard.card_type == CardConstants.CardType.CHARACTER:
+				on_character_card_effect(
+					(card_to_discard as CardCharacterData).character_type,
+					player
+				)
+
+			player.discard_from_hand(card_to_discard)
+			deck.discard_card(card_to_discard)
+			player.update_ui()
+
+# Handler for deciding on what to do depending on character type
+func on_character_card_effect(character_type: CardConstants.CardCharacter, player: BasePlayer):
+	print("GameManager resolving: %s effect", character_type)
+	match character_type:
+		CardConstants.CardCharacter.MATH_TEACHER:
+			apply_effect_math_teacher(player)
+		# Handle other characters
+
+func apply_effect_math_teacher(player: BasePlayer):
+	print("Math Teacher: Drawing 2 extra cards")
+	for i in range(2):
+		var extra_card = deck.draw_card()
+		player.add_card_to_hand(extra_card)
+	player.update_ui()
+	
+	await enforce_hand_limit(player)
