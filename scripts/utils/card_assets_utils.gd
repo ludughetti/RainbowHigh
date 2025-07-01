@@ -38,7 +38,7 @@ const CHARACTER_CARD_TEXTURES_IDLE := {
 	CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/prom_queen/PROM_QUEEN_Idle.png"),
 	CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/nosey/NOSEY_Idle.png"),
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Idle.png"),
-	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Idle.png"),
 	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
 	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")
@@ -50,7 +50,7 @@ const CHARACTER_CARD_TEXTURES_HOVER := {
 	CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/prom_queen/PROM_QUEEN_Hover.png"),
 	CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/nosey/NOSEY_Hover.png"),
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Hover.png"),
-	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Hover.png"),
 	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
 	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")
@@ -62,7 +62,7 @@ const CHARACTER_CARD_TEXTURES_PRESSED := {
 	CardConstants.CardCharacter.PROM_QUEEN: preload("res://assets/cards/character/prom_queen/PROM_QUEEN_Pressed.png"),
 	CardConstants.CardCharacter.NOSEY: preload("res://assets/cards/character/nosey/NOSEY_Pressed.png"),
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Pressed.png"),
-	#CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/ClassPresident_Idle.png"),
+	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Pressed.png"),
 	#CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/ArtTeacher_Idle.png"),
 	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")

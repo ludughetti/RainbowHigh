@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.THEATER_KID)
+			special_card.setup_card(CardConstants.CardCharacter.CLASS_PRESIDENT)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -117,7 +117,7 @@ func play_turn(current_player: BasePlayer):
 		
 		# Trigger effect if it's a character card
 		if selected_card.card_type == CardConstants.CardType.CHARACTER:
-			on_character_card_effect(
+			await on_character_card_effect(
 				(selected_card as CardCharacterData).character_type,
 				current_player
 			)
@@ -171,7 +171,7 @@ func enforce_hand_limit(player: BasePlayer) -> void:
 		if card_to_discard:
 			# 🔁 If another character card is discarded, apply its effect
 			if card_to_discard.card_type == CardConstants.CardType.CHARACTER:
-				on_character_card_effect(
+				await on_character_card_effect(
 					(card_to_discard as CardCharacterData).character_type,
 					player
 				)
@@ -194,6 +194,8 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_nosey(player)
 		CardConstants.CardCharacter.THEATER_KID:
 			await apply_effect_theater_kid(player)
+		CardConstants.CardCharacter.CLASS_PRESIDENT:
+			await apply_effect_class_president(player)
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -364,3 +366,40 @@ func force_human_discard(player: Player, count: int) -> void:
 				(discarded_card as CardCharacterData).character_type,
 				player
 			)
+
+func apply_effect_class_president(_player: BasePlayer):
+	print("Class President: All players give one card to the player on their right")
+
+	for i in range(players.size()):
+		var from_player: BasePlayer = players[i]
+		var to_player: BasePlayer = players[(i + 1) % players.size()]
+
+		if from_player.hand.is_empty():
+			print("%s has no cards to give." % from_player.player_name)
+			continue
+
+		var given_card: CardData = null
+
+		if from_player is AIPlayer:
+			given_card = (from_player as AIPlayer).pick_discard_card()
+		else:
+			print("%s must give a card to %s" % [from_player.player_name, to_player.player_name])
+			given_card = await from_player.action_requested
+
+		if given_card == null:
+			print("No card selected from %s" % from_player.player_name)
+			continue
+
+		from_player.discard_from_hand(given_card)
+		to_player.add_card_to_hand(given_card)
+
+		print("%s gave a card to %s" % [from_player.player_name, to_player.player_name])
+
+		# Trigger character effect on the received card
+		if given_card.card_type == CardConstants.CardType.CHARACTER:
+			await on_character_card_effect((given_card as CardCharacterData).character_type, to_player)
+
+		from_player.update_ui()
+		to_player.update_ui()
+
+		await enforce_hand_limit(to_player)
