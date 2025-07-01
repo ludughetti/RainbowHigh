@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.NOSEY)
+			special_card.setup_card(CardConstants.CardCharacter.THEATER_KID)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -192,6 +192,8 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_prom_queen(player)
 		CardConstants.CardCharacter.NOSEY:
 			await apply_effect_nosey(player)
+		CardConstants.CardCharacter.THEATER_KID:
+			await apply_effect_theater_kid(player)
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -294,3 +296,71 @@ func apply_effect_nosey(player: BasePlayer):
 	player.update_ui()
 
 	await enforce_hand_limit(player)
+
+func apply_effect_theater_kid(player: BasePlayer):
+	var current_index := players.find(player)
+	if current_index == -1:
+		print("Error: Player not found")
+		return
+	
+	var target_index := (current_index + 2) % players.size()
+	var target_player: BasePlayer = players[target_index]
+
+	if target_player.hand.is_empty():
+		print("%s tried to discard 2 cards but %s has no cards" % [player.player_name, target_player.player_name])
+		return
+	
+	print("%s (Theater Kid) forces %s to discard 2 cards" % [player.player_name, target_player.player_name])
+	
+	target_player.update_ui()
+	
+	# If AI, pick two cards to discard
+	if target_player is AIPlayer:
+		for i in range(2):
+			if target_player.hand.is_empty():
+				break
+				
+			var discard = (target_player as AIPlayer).pick_discard_card()
+			target_player.call_deferred("emit_signal", "action_requested", discard)
+			
+			var selected: CardData = await target_player.action_requested
+			if selected != null:
+				if selected.card_type == CardConstants.CardType.CHARACTER:
+					await on_character_card_effect((selected as CardCharacterData).character_type, target_player)
+				target_player.discard_from_hand(selected)
+				deck.discard_card(selected)
+				target_player.update_ui()
+	else:
+		# Force human player to discard 2 cards via UI & signals
+		await force_human_discard(target_player, 2)
+
+	# After discards, enforce hand limit just in case
+	await enforce_hand_limit(target_player)
+
+func force_human_discard(player: Player, count: int) -> void:
+	print("Forcing %d discards from human player %s" % [count, player.player_name])
+	
+	for i in range(count):
+		if player.hand.is_empty():
+			print("Player has no more cards to discard.")
+			break
+		
+		print("Waiting for discard %d/%d" % [i + 1, count])
+		
+		# Wait for player's discard action (card or pass)
+		var discarded_card: CardData = await player.action_requested
+		
+		if discarded_card == null:
+			print("Player passed discard early (unexpected)")
+			break
+		
+		player.discard_from_hand(discarded_card)
+		deck.discard_card(discarded_card)
+		player.update_ui()
+		
+		# If discarded card is a character, trigger its effect
+		if discarded_card.card_type == CardConstants.CardType.CHARACTER:
+			await on_character_card_effect(
+				(discarded_card as CardCharacterData).character_type,
+				player
+			)
