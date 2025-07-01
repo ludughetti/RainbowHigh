@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.MATH_TEACHER)
+			special_card.setup_card(CardConstants.CardCharacter.PROM_QUEEN)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -111,6 +111,10 @@ func play_turn(current_player: BasePlayer):
 	# selected_card will be null if it's a pass, and CardData if it's discard
 	var selected_card = await current_player.action_requested
 	if selected_card != null:
+		# Discard the card that was played
+		current_player.discard_from_hand(selected_card)
+		deck.discard_card(selected_card)
+		
 		# Trigger effect if it's a character card
 		if selected_card.card_type == CardConstants.CardType.CHARACTER:
 			on_character_card_effect(
@@ -118,9 +122,6 @@ func play_turn(current_player: BasePlayer):
 				current_player
 			)
 			
-		current_player.discard_from_hand(selected_card)
-		deck.discard_card(selected_card)
-
 	# Update player UI
 	current_player.update_ui()
 	current_player.toggle_is_player_turn(false)
@@ -184,8 +185,11 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 	print("GameManager resolving: %s effect", character_type)
 	match character_type:
 		CardConstants.CardCharacter.MATH_TEACHER:
-			apply_effect_math_teacher(player)
-		# Handle other characters
+			await apply_effect_math_teacher(player)
+		CardConstants.CardCharacter.SPORTSY:
+			await apply_effect_sportsy(player)
+		CardConstants.CardCharacter.PROM_QUEEN:
+			await apply_effect_prom_queen(player)
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -195,3 +199,70 @@ func apply_effect_math_teacher(player: BasePlayer):
 	player.update_ui()
 	
 	await enforce_hand_limit(player)
+
+func apply_effect_sportsy(player: BasePlayer):
+	var current_index := players.find(player)
+	if current_index == -1:
+		print("Error: Player not found")
+		return
+
+	var target_index := (current_index + 1) % players.size()
+	var target_player: BasePlayer = players[target_index]
+
+	if target_player.hand.is_empty():
+		print("%s tried to steal from %s, but their hand is empty" % [player.player_name, target_player.player_name])
+		return
+
+	# Pick a random card to steal
+	var stolen_card: CardData = target_player.hand.pick_random()
+	target_player.hand.erase(stolen_card)
+	player.hand.append(stolen_card)
+
+	print("%s stole a card from %s!" % [player.player_name, target_player.player_name])
+
+	target_player.update_ui()
+	player.update_ui()
+
+	await enforce_hand_limit(player)
+
+func apply_effect_prom_queen(player: BasePlayer):
+	# Find the player(s) with the largest hand
+	var max_size := -1
+	var candidates: Array[BasePlayer] = []
+
+	for p in players:
+		# Skip the one who played the Prom Queen
+		if p == player:
+			continue  
+		
+		# Else, find player with the most cards
+		if p.hand.size() > max_size:
+			max_size = p.hand.size()
+			candidates = [p]
+		elif p.hand.size() == max_size:
+			candidates.append(p)
+
+	# Choose first player among those with most cards (for now)
+	var target := candidates[0]
+
+	print("Prom Queen: %s has the most cards and must discard one" % target.player_name)
+
+	# Force discard
+	target.update_ui()
+	if target is AIPlayer:
+		var discard := (target as AIPlayer).pick_discard_card()
+		target.call_deferred("emit_signal", "action_requested", discard)
+
+	var selected: CardData = await target.action_requested
+
+	if selected:
+		# Check for nested character effect
+		if selected.card_type == CardConstants.CardType.CHARACTER:
+			await on_character_card_effect(
+				(selected as CardCharacterData).character_type,
+				target
+			)
+
+		target.discard_from_hand(selected)
+		deck.discard_card(selected)
+		target.update_ui()
