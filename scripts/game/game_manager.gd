@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.PROM_QUEEN)
+			special_card.setup_card(CardConstants.CardCharacter.NOSEY)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -190,6 +190,8 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_sportsy(player)
 		CardConstants.CardCharacter.PROM_QUEEN:
 			await apply_effect_prom_queen(player)
+		CardConstants.CardCharacter.NOSEY:
+			await apply_effect_nosey(player)
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -266,3 +268,29 @@ func apply_effect_prom_queen(player: BasePlayer):
 		target.discard_from_hand(selected)
 		deck.discard_card(selected)
 		target.update_ui()
+
+func apply_effect_nosey(player: BasePlayer):
+	var current_index := players.find(player)
+	if current_index == -1:
+		print("Error: Player not found")
+		return
+
+	var target_index := (current_index - 1 + players.size()) % players.size()
+	var target_player: BasePlayer = players[target_index]
+
+	if target_player.hand.is_empty():
+		print("%s tried to steal from %s, but their hand is empty" % [player.player_name, target_player.player_name])
+		return
+
+	# Steal a random card
+	var stolen_card: CardData = target_player.hand.pick_random()
+	target_player.hand.erase(stolen_card)
+	player.hand.append(stolen_card)
+
+	print("%s stole a card from %s!" % [player.player_name, target_player.player_name])
+
+	# Update UIs
+	target_player.update_ui()
+	player.update_ui()
+
+	await enforce_hand_limit(player)
