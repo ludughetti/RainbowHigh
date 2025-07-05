@@ -62,12 +62,6 @@ func start_game():
 			player.add_card_to_hand(card)
 			print("Dealt card: " + card.card_name)
 			
-		# TEMP ------------------
-		if player.player_name == "Player":
-			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.HISTORY_TEACHER)
-			player.add_card_to_hand(special_card)
-			
 		player.update_ui()
 			
 	call_deferred("run_game_loop")

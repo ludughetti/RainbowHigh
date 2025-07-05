@@ -29,6 +29,15 @@ func populate_full_deck():
 		joker.setup_card()
 		full_deck.append(joker)
 		
+	# Add 1 of each character card
+	for character in CardConstants.CardCharacter.values():
+		if character == CardConstants.CardCharacter.NONE:
+			continue  # Skip placeholder
+		
+		var special = CardCharacterData.new()
+		special.setup_card(character)
+		full_deck.append(special)
+
 # Reset current deck to full deck
 func restart_deck():
 	current_deck = full_deck.duplicate()
