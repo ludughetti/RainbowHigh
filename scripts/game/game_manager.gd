@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.BAD_BOY)
+			special_card.setup_card(CardConstants.CardCharacter.HISTORY_TEACHER)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -200,6 +200,9 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_art_teacher(player)
 		CardConstants.CardCharacter.BAD_BOY:
 			await apply_effect_bad_boy(player)
+		CardConstants.CardCharacter.HISTORY_TEACHER:
+			await apply_effect_history_teacher(player)
+
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -481,6 +484,50 @@ func apply_effect_bad_boy(_player: BasePlayer):
 				(to_discard as CardCharacterData).character_type,
 				p
 			)
+
+		p.update_ui()
+		await enforce_hand_limit(p)
+		
+func apply_effect_history_teacher(_player: BasePlayer):
+	print("History Teacher: All players discard 2 cards")
+
+	for p in players:
+		if p.hand.is_empty():
+			print("%s has no cards." % p.player_name)
+			continue
+
+		var num_to_discard: int = min(2, p.hand.size())
+
+		if p is AIPlayer:
+			for i in range(num_to_discard):
+				var card = (p as AIPlayer).pick_discard_card()
+				p.discard_from_hand(card)
+				deck.discard_card(card)
+
+				print("%s discarded %s" % [p.player_name, card.card_name])
+
+				if card.card_type == CardConstants.CardType.CHARACTER:
+					await on_character_card_effect(
+						(card as CardCharacterData).character_type,
+						p
+					)
+		else:
+			print("%s must discard %d card(s)" % [p.player_name, num_to_discard])
+			for i in range(num_to_discard):
+				if p.hand.is_empty():
+					break
+				var selected: CardData = await p.action_requested
+				if selected != null:
+					p.discard_from_hand(selected)
+					deck.discard_card(selected)
+
+					print("%s discarded %s" % [p.player_name, selected.card_name])
+
+					if selected.card_type == CardConstants.CardType.CHARACTER:
+						await on_character_card_effect(
+							(selected as CardCharacterData).character_type,
+							p
+						)
 
 		p.update_ui()
 		await enforce_hand_limit(p)
