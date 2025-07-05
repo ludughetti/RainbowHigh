@@ -40,7 +40,7 @@ const CHARACTER_CARD_TEXTURES_IDLE := {
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Idle.png"),
 	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Idle.png"),
 	CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/art_teacher/ART_TEACHER_Idle.png"),
-	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
+	CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/bad_boy/BAD_BOY_Idle.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")
 }
 
@@ -52,7 +52,7 @@ const CHARACTER_CARD_TEXTURES_HOVER := {
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Hover.png"),
 	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Hover.png"),
 	CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/art_teacher/ART_TEACHER_Hover.png"),
-	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
+	CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/bad_boy/BAD_BOY_Hover.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")
 }
 
@@ -64,7 +64,7 @@ const CHARACTER_CARD_TEXTURES_PRESSED := {
 	CardConstants.CardCharacter.THEATER_KID: preload("res://assets/cards/character/theater_kid/THEATER_KID_Pressed.png"),
 	CardConstants.CardCharacter.CLASS_PRESIDENT: preload("res://assets/cards/character/class_president/CLASS_PRESIDENT_Pressed.png"),
 	CardConstants.CardCharacter.ART_TEACHER: preload("res://assets/cards/character/art_teacher/ART_TEACHER_Pressed.png"),
-	#CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/BadBoy_Idle.png"),
+	CardConstants.CardCharacter.BAD_BOY: preload("res://assets/cards/character/bad_boy/BAD_BOY_Pressed.png"),
 	#CardConstants.CardCharacter.HISTORY_TEACHER: preload("res://assets/cards/character/HistoryTeacher_Idle.png")
 }
 

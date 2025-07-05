@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.ART_TEACHER)
+			special_card.setup_card(CardConstants.CardCharacter.BAD_BOY)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -198,7 +198,8 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_class_president(player)
 		CardConstants.CardCharacter.ART_TEACHER:
 			await apply_effect_art_teacher(player)
-
+		CardConstants.CardCharacter.BAD_BOY:
+			await apply_effect_bad_boy(player)
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -450,3 +451,40 @@ func apply_effect_art_teacher(_player: BasePlayer):
 		to_player.update_ui()
 
 		await enforce_hand_limit(to_player)
+
+func apply_effect_bad_boy(_player: BasePlayer):
+	print("Bad Boy: All players discard one random card")
+
+	for p in players:
+		if p.hand.is_empty():
+			print("%s has no cards to discard." % p.player_name)
+			continue
+
+		var to_discard: CardData
+
+		if p is AIPlayer:
+			to_discard = p.hand[randi() % p.hand.size()]
+		else:
+			# Let player know what's happening
+			print("Prompting %s to discard a random card" % p.player_name)
+			to_discard = await discard_random_card_from_player(p)
+
+		# Discard it
+		p.discard_from_hand(to_discard)
+		deck.discard_card(to_discard)
+
+		print("%s discarded %s" % [p.player_name, to_discard.card_name])
+
+		# Trigger nested character effect
+		if to_discard.card_type == CardConstants.CardType.CHARACTER:
+			await on_character_card_effect(
+				(to_discard as CardCharacterData).character_type,
+				p
+			)
+
+		p.update_ui()
+		await enforce_hand_limit(p)
+
+func discard_random_card_from_player(player: BasePlayer) -> CardData:
+	var random_index = randi() % player.hand.size()
+	return player.hand[random_index]
