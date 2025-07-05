@@ -65,7 +65,7 @@ func start_game():
 		# TEMP ------------------
 		if player.player_name == "Player":
 			var special_card := CardCharacterData.new()
-			special_card.setup_card(CardConstants.CardCharacter.CLASS_PRESIDENT)
+			special_card.setup_card(CardConstants.CardCharacter.ART_TEACHER)
 			player.add_card_to_hand(special_card)
 			
 		player.update_ui()
@@ -196,6 +196,9 @@ func on_character_card_effect(character_type: CardConstants.CardCharacter, playe
 			await apply_effect_theater_kid(player)
 		CardConstants.CardCharacter.CLASS_PRESIDENT:
 			await apply_effect_class_president(player)
+		CardConstants.CardCharacter.ART_TEACHER:
+			await apply_effect_art_teacher(player)
+
 
 func apply_effect_math_teacher(player: BasePlayer):
 	print("Math Teacher: Drawing 2 extra cards")
@@ -398,6 +401,50 @@ func apply_effect_class_president(_player: BasePlayer):
 		# Trigger character effect on the received card
 		if given_card.card_type == CardConstants.CardType.CHARACTER:
 			await on_character_card_effect((given_card as CardCharacterData).character_type, to_player)
+
+		from_player.update_ui()
+		to_player.update_ui()
+
+		await enforce_hand_limit(to_player)
+
+func apply_effect_art_teacher(_player: BasePlayer):
+	print("Art Teacher: All players give 2 cards to the player on their right")
+
+	for i in range(players.size()):
+		var from_player: BasePlayer = players[i]
+		var to_player: BasePlayer = players[(i + 1) % players.size()]
+		var cards_to_give: Array[CardData] = []
+
+		if from_player.hand.size() == 0:
+			print("%s has no cards to give." % from_player.player_name)
+			continue
+
+		var num_cards: int = min(2, from_player.hand.size())
+
+		if from_player is AIPlayer:
+			for j in range(num_cards):
+				var card = (from_player as AIPlayer).pick_discard_card()
+				cards_to_give.append(card)
+		else:
+			print("%s must give %d card(s) to %s" % [from_player.player_name, num_cards, to_player.player_name])
+			for j in range(num_cards):
+				if from_player.hand.is_empty():
+					break
+				var selected_card: CardData = await from_player.action_requested
+				if selected_card != null:
+					cards_to_give.append(selected_card)
+
+		for card in cards_to_give:
+			from_player.discard_from_hand(card)
+			to_player.add_card_to_hand(card)
+
+			print("%s gave card to %s" % [from_player.player_name, to_player.player_name])
+
+			if card.card_type == CardConstants.CardType.CHARACTER:
+				await on_character_card_effect(
+					(card as CardCharacterData).character_type,
+					to_player
+				)
 
 		from_player.update_ui()
 		to_player.update_ui()
