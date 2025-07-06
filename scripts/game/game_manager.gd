@@ -17,130 +17,83 @@ var current_player_index: int = 0
 var is_game_active: bool = true
 
 func _ready():
-	# Instance and add deck
 	setup_deck()
-	# Instance and add player
 	setup_players()
-	# Start the game
 	start_game()
-	
+
 func setup_deck():
 	deck = DeckScene.instantiate()
 	deck.restart_deck()
-	deck_container.add_child(deck) # make sure this is the correct path
+	deck_container.add_child(deck)
 
 func setup_players():
-	var player = PlayerScene.instantiate()
-	player.set_up_player("Player")
+	_add_player(PlayerScene, player_area, "Player")
+	_add_player(AIPlayerScene, ai_right_area, "AI Right")
+	_add_player(AIPlayerScene, ai_opposite_area, "AI Opposite")
+	_add_player(AIPlayerScene, ai_left_area, "AI Left")
+
+func _add_player(scene, area, name):
+	var player = scene.instantiate()
+	player.set_up_player(name)
 	players.append(player)
-	player_area.add_child(player)
-	
-	# AI Right
-	var ai_right = AIPlayerScene.instantiate()
-	ai_right.set_up_player("AI Right")
-	players.append(ai_right)
-	ai_right_area.add_child(ai_right)
-	
-	# AI Opposite
-	var ai_opposite = AIPlayerScene.instantiate()
-	ai_opposite.set_up_player("AI Opposite")
-	players.append(ai_opposite)
-	ai_opposite_area.add_child(ai_opposite)
-	
-	# AI Left
-	var ai_left = AIPlayerScene.instantiate()
-	ai_left.set_up_player("AI Left")
-	players.append(ai_left)
-	ai_left_area.add_child(ai_left)
+	area.add_child(player)
 
 func start_game():
-	# Deal initial 5 cards to each player
 	for player in players:
 		print("Dealing cards for player " + player.player_name)
 		for i in range(5):
-			var card = deck.draw_card()
-			player.add_card_to_hand(card)
-			print("Dealt card: " + card.card_name)
-			
+			player.add_card_to_hand(deck.draw_card())
+			print("Dealt card: " + player.hand[-1].card_name)
 		player.update_ui()
-			
 	call_deferred("run_game_loop")
 
 func run_game_loop():
-	var current_player
-	
 	while is_game_active:
-		current_player = players[current_player_index]
-		await play_turn(current_player)
-	
-	# Get the Result scene
-	show_victory_screen(current_player)
-	
+		await play_turn(players[current_player_index])
+	show_victory_screen(players[current_player_index])
+
 func play_turn(current_player: BasePlayer):
-	# Set turn active in player
 	current_player.toggle_is_player_turn(true)
-	
-	# Print who's playing
 	print("Starting %s turn..." % current_player.player_name)
-	
-	# Show UI
 	current_player.update_ui()
 	await get_tree().create_timer(2).timeout
 
-	# Draw card and update UI
-	var drawn_card = deck.draw_card()
-	current_player.add_card_to_hand(drawn_card)
+	current_player.add_card_to_hand(deck.draw_card())
 	current_player.update_ui()
 	await get_tree().process_frame
-	
+
 	if current_player.has_full_rainbow():
-		# Set this to false and exit the turn loop
 		is_game_active = false
-		return  
-		
-	# AI logic trigger
+		return
+
 	if current_player is AIPlayer:
 		current_player.ai_take_turn()
 
-	# selected_card will be null if it's a pass, and CardData if it's discard
 	var selected_card = await current_player.action_requested
 	if selected_card != null:
-		# Discard the card that was played
 		current_player.discard_from_hand(selected_card)
 		deck.discard_card(selected_card)
-		
-		# Trigger effect if it's a character card
 		if selected_card.card_type == CardConstants.CardType.CHARACTER:
-			await on_character_card_effect(
-				(selected_card as CardCharacterData).character_type,
-				current_player
-			)
-			
-	# Update player UI
+			await on_character_card_effect((selected_card as CardCharacterData).character_type, current_player)
+
 	current_player.update_ui()
 	current_player.toggle_is_player_turn(false)
 	await get_tree().process_frame
-	
 	print("Turn finished for %s" % current_player.player_name)
-
-	# End turn, next player
 	await end_turn()
 
 func show_victory_screen(current_player: BasePlayer):
 	print("%s wins!" % current_player.player_name)
 	await get_tree().create_timer(2).timeout
-	
-	#Load end result scene
 	Global.winner_name = current_player.player_name
 	get_tree().change_scene_to_file("res://scenes/game/result_screen.tscn")
-	
+
 func wait_for_action(player: BasePlayer) -> CardData:
 	return await player.action_requested
 
 func draw_card_for(player_ref):
-	var drawn_card = deck.draw_card()
-	player_ref.add_card_to_hand(drawn_card)
-	
+	player_ref.add_card_to_hand(deck.draw_card())
+
 func discard_from_hand(player_ref, card):
 	player_ref.discard_from_hand(card)
 	deck.discard_card(card)
