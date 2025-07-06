@@ -10,7 +10,7 @@ var player_name: String
 var hand: Array[CardData] = []
 var is_player_turn: bool = false
 
-signal action_requested(card: CardData)
+signal action_requested(card)
 
 func set_up_player(new_name: String):
 	player_name = new_name

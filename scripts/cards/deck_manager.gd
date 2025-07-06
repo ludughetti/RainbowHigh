@@ -1,4 +1,5 @@
 extends Control
+class_name DeckManager
 
 const ColorCardScene: PackedScene = preload("res://scenes/cards/card_color.tscn")
 const JokerCardScene: PackedScene = preload("res://scenes/cards/card_joker.tscn")
