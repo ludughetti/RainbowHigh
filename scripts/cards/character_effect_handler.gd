@@ -329,9 +329,7 @@ func _delay_action(duration := 1.0) -> void:
 	await get_tree().create_timer(duration).timeout
 
 func draw_card_sfx():
-	var player = get_parent().get_node("SFXPlayers/SFXDrawCard")
-	player.play()
+	get_parent().get_node("SFXPlayers").get_node("SFXDrawCard").play()
 
 func discard_card_sfx():
-	var player = get_parent().get_node("SFXPlayers/SFXDiscardCard")
-	player.play()
+	get_parent().get_node("SFXPlayers").get_node("SFXDiscardCard").play()
