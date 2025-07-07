@@ -8,7 +8,8 @@ extends Node
 
 const DeckScene = preload("res://scenes/cards/deck.tscn")
 const PlayerScene = preload("res://scenes/game/player.tscn")
-const AIPlayerScene = preload("res://scenes/game/ai_player.tscn")
+const AIPlayerHorScene = preload("res://scenes/game/ai_player_horizontal.tscn")
+const AIPlayerVerScene = preload("res://scenes/game/ai_player_vertical.tscn")
 const ResultScene = preload("res://scenes/game/result_screen.tscn")
 
 const CharacterEffectHandler = preload("res://scripts/cards/character_effect_handler.gd")
@@ -35,9 +36,9 @@ func setup_deck():
 
 func setup_players():
 	_add_player(PlayerScene, player_area, "Player")
-	_add_player(AIPlayerScene, ai_right_area, "AI Right")
-	_add_player(AIPlayerScene, ai_opposite_area, "AI Opposite")
-	_add_player(AIPlayerScene, ai_left_area, "AI Left")
+	_add_player(AIPlayerVerScene, ai_right_area, "AI Right")
+	_add_player(AIPlayerHorScene, ai_opposite_area, "AI Opposite")
+	_add_player(AIPlayerVerScene, ai_left_area, "AI Left")
 
 func _add_player(scene, area, player_name):
 	var player = scene.instantiate()

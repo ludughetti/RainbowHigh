@@ -13,6 +13,7 @@ anchors_preset = 0
 offset_right = 115.2
 offset_bottom = 154.4
 script = ExtResource("1_q1bi4")
+card_type = 2
 
 [node name="CardButton" type="TextureButton" parent="."]
 custom_minimum_size = Vector2(115.2, 154.4)
