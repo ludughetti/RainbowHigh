@@ -2,11 +2,13 @@ extends CardData
 class_name CardCharacterData
 
 @export var character_type: CardConstants.CardCharacter = CardConstants.CardCharacter.NONE
+var card_description: String
 
 func setup_card(type: CardConstants.CardCharacter):
 	card_type = CardConstants.CardType.CHARACTER
 	character_type = type
 	card_name = CardConstants.CardCharacter.keys()[type]
+	card_description = CardAssetsUtils.get_description(type)
 	card_texture_idle = CardAssetsUtils.get_character_card_texture_idle(type)
 	card_texture_hover = CardAssetsUtils.get_character_card_texture_hover(type)
 	card_texture_pressed = CardAssetsUtils.get_character_card_texture_pressed(type)
@@ -20,3 +22,4 @@ func set_card_data(card: CardData):
 
 	if card is CardCharacterData:
 		character_type = card.character_type
+		card_description = card.card_description

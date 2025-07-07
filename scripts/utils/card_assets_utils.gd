@@ -74,6 +74,18 @@ const JOKER_CARD_TEXTURE_PRESSED = preload("res://assets/cards/core/Joker/JOKER_
 
 const REVERSE_CARD_TEXTURE = preload("res://assets/cards/core/Reverse.png")
 
+const CHARACTER_CARD_DESCRIPTIONS:= {
+	CardConstants.CardCharacter.MATH_TEACHER: "Draw 2 extra cards.",
+	CardConstants.CardCharacter.SPORTSY: "Steal a card from the player to your right.",
+	CardConstants.CardCharacter.PROM_QUEEN: "Force the player with the most cards to discard one.",
+	CardConstants.CardCharacter.NOSEY: "Steal a card from the player to your left.",
+	CardConstants.CardCharacter.THEATER_KID: "Force the player across from you to discard 2 cards.",
+	CardConstants.CardCharacter.CLASS_PRESIDENT: "Everyone gives 1 card to the player to their right.",
+	CardConstants.CardCharacter.ART_TEACHER: "Everyone gives 2 cards to the player to their right.",
+	CardConstants.CardCharacter.BAD_BOY: "Everyone discards one random card.",
+	CardConstants.CardCharacter.HISTORY_TEACHER: "Everyone discards 2 cards."
+}
+
 func get_color_card_texture_idle(color: CardConstants.CardColor) -> Texture2D:
 	return COLOR_CARD_TEXTURES_IDLE.get(color, REVERSE_CARD_TEXTURE)
 	
@@ -103,3 +115,6 @@ func get_character_card_texture_hover(character: CardConstants.CardCharacter) ->
 
 func get_character_card_texture_pressed(character: CardConstants.CardCharacter) -> Texture2D:
 	return CHARACTER_CARD_TEXTURES_PRESSED.get(character, REVERSE_CARD_TEXTURE)
+	
+func get_description(character: CardConstants.CardCharacter) -> String:
+	return CHARACTER_CARD_DESCRIPTIONS.get(character, "")

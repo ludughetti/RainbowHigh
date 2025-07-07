@@ -93,6 +93,8 @@ func play_turn(current_player: BasePlayer):
 		await get_tree().create_timer(1).timeout
 		
 		if selected_card.card_type == CardConstants.CardType.CHARACTER:
+			var effect_card = selected_card as CardCharacterData
+			await show_effect_message(effect_card.card_description)
 			await effect_handler.apply((selected_card as CardCharacterData).character_type, current_player)
 
 	current_player.update_ui()
@@ -111,3 +113,12 @@ func end_turn():
 	current_player_index = (current_player_index + 1) % players.size()
 	print("Turn ended, waiting for next player...")
 	await get_tree().create_timer(2).timeout
+
+func show_effect_message(text: String):
+	var panel = get_parent().get_node("CardEffectPanel")
+	var label = panel.get_node("CardEffectLabel")
+	label.text = text
+	panel.visible = true
+	
+	await get_tree().create_timer(2).timeout
+	panel.visible = false
