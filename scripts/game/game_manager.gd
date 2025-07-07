@@ -55,6 +55,7 @@ func start_game():
 			
 			player.add_card_to_hand(card)
 			player.update_ui()
+			draw_card_sfx()
 			await get_tree().create_timer(1).timeout
 			
 	call_deferred("run_game_loop")
@@ -75,6 +76,7 @@ func play_turn(current_player: BasePlayer):
 	var drawn_card = deck.draw_card()
 	current_player.add_card_to_hand(drawn_card)
 	current_player.update_ui()
+	draw_card_sfx()
 	await get_tree().create_timer(1).timeout
 
 	if current_player.has_full_rainbow():
@@ -88,6 +90,7 @@ func play_turn(current_player: BasePlayer):
 	if selected_card != null:
 		current_player.discard_from_hand(selected_card)
 		current_player.update_ui()
+		discard_card_sfx()
 		await get_tree().create_timer(1).timeout
 		deck.discard_card(selected_card)
 		await get_tree().create_timer(1).timeout
@@ -122,3 +125,11 @@ func show_effect_message(text: String):
 	
 	await get_tree().create_timer(2).timeout
 	panel.visible = false
+
+func draw_card_sfx():
+	var player = get_parent().get_node("SFXPlayers/SFXDrawCard")
+	player.play()
+
+func discard_card_sfx():
+	var player = get_parent().get_node("SFXPlayers/SFXDiscardCard")
+	player.play()

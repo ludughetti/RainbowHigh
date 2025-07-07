@@ -37,6 +37,7 @@ func _math_teacher(player):
 	for i in 2:
 		player.add_card_to_hand(deck.draw_card())
 		player.update_ui()
+		draw_card_sfx()
 		await _delay_action()
 		
 	await _enforce_hand_limit(player)
@@ -91,6 +92,7 @@ func _prom_queen(player):
 		
 		target.discard_from_hand(selected)
 		target.update_ui()
+		discard_card_sfx()
 		await _delay_action()
 		deck.discard_card(selected)
 		await _delay_action()
@@ -139,6 +141,7 @@ func _theater_kid(player):
 					await apply((selected as CardCharacterData).character_type, target)
 				target.discard_from_hand(selected)
 				target.update_ui()
+				discard_card_sfx()
 				await _delay_action()
 				deck.discard_card(selected)
 				await _delay_action()
@@ -164,9 +167,11 @@ func _class_president():
 			
 		from_player.discard_from_hand(card)
 		from_player.update_ui()
+		discard_card_sfx()
 		await _delay_action()
 		to_player.add_card_to_hand(card)
 		to_player.update_ui()
+		draw_card_sfx()
 		await _delay_action()
 		
 		print("%s gave a card to %s" % [from_player.player_name, to_player.player_name])
@@ -199,9 +204,11 @@ func _art_teacher():
 		for card in cards:
 			from_player.discard_from_hand(card)
 			from_player.update_ui()
+			discard_card_sfx()
 			await _delay_action()
 			to_player.add_card_to_hand(card)
 			to_player.update_ui()
+			draw_card_sfx()
 			await _delay_action()
 			
 			print("%s gave card to %s" % [from_player.player_name, to_player.player_name])
@@ -222,6 +229,7 @@ func _bad_boy():
 		var card: CardData = p.hand[randi() % p.hand.size()] if p is AIPlayer else _discard_random_card_from_player(p)
 		p.discard_from_hand(card)
 		p.update_ui();
+		discard_card_sfx()
 		await _delay_action()
 		deck.discard_card(card)
 		await _delay_action()
@@ -247,6 +255,7 @@ func _history_teacher():
 				var card = p.pick_discard_card()
 				p.discard_from_hand(card)
 				p.update_ui()
+				discard_card_sfx()
 				await _delay_action()
 				deck.discard_card(card)
 				await _delay_action()
@@ -262,6 +271,7 @@ func _history_teacher():
 				if selected:
 					p.discard_from_hand(selected)
 					p.update_ui()
+					discard_card_sfx()
 					await _delay_action()
 					deck.discard_card(selected)
 					await _delay_action()
@@ -291,6 +301,7 @@ func _enforce_hand_limit(player: BasePlayer):
 				await apply((selected as CardCharacterData).character_type, player)
 			player.discard_from_hand(selected)
 			player.update_ui()
+			discard_card_sfx()
 			await _delay_action()
 			deck.discard_card(selected)
 			await _delay_action()
@@ -302,6 +313,7 @@ func _force_human_discard(player: Player, count: int):
 		if not card: break
 		player.discard_from_hand(card)
 		player.update_ui()
+		discard_card_sfx()
 		await _delay_action()
 		deck.discard_card(card)
 		await _delay_action()
@@ -315,3 +327,11 @@ func _discard_random_card_from_player(player: BasePlayer) -> CardData:
 func _delay_action(duration := 1.0) -> void:
 	await get_tree().process_frame
 	await get_tree().create_timer(duration).timeout
+
+func draw_card_sfx():
+	var player = get_parent().get_node("SFXPlayers/SFXDrawCard")
+	player.play()
+
+func discard_card_sfx():
+	var player = get_parent().get_node("SFXPlayers/SFXDiscardCard")
+	player.play()
