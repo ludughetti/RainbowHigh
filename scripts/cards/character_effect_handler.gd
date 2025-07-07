@@ -36,7 +36,9 @@ func _math_teacher(player):
 	print("Math Teacher: Drawing 2 extra cards")
 	for i in 2:
 		player.add_card_to_hand(deck.draw_card())
-	player.update_ui()
+		player.update_ui()
+		await _delay_action()
+		
 	await _enforce_hand_limit(player)
 
 func _sportsy(player):
@@ -52,8 +54,12 @@ func _sportsy(player):
 	player.hand.append(stolen)
 	print("%s stole a card from %s!" % [player.player_name, target.player_name])
 	
+	# Update UI and wait for each
 	target.update_ui()
+	await _delay_action()
 	player.update_ui()
+	await _delay_action()
+	
 	await _enforce_hand_limit(player)
 
 func _prom_queen(player):
@@ -73,6 +79,8 @@ func _prom_queen(player):
 	print("%s has the most cards and must discard one" % target.player_name)
 	
 	target.update_ui()
+	await _delay_action()
+	
 	if target is AIPlayer:
 		var discard = target.pick_discard_card()
 		target.call_deferred("emit_signal", "action_requested", discard)
@@ -80,9 +88,12 @@ func _prom_queen(player):
 	if selected:
 		if selected.card_type == CardConstants.CardType.CHARACTER:
 			await apply((selected as CardCharacterData).character_type, target)
+		
 		target.discard_from_hand(selected)
-		deck.discard_card(selected)
 		target.update_ui()
+		await _delay_action()
+		deck.discard_card(selected)
+		await _delay_action()
 
 func _nosey(player):
 	print("Nosey: steal a card from the player on the left")
@@ -98,7 +109,10 @@ func _nosey(player):
 	print("%s stole a card from %s!" % [player.player_name, target.player_name])
 	
 	target.update_ui()
+	await _delay_action()
 	player.update_ui()
+	await _delay_action()
+	
 	await _enforce_hand_limit(player)
 
 func _theater_kid(player):
@@ -112,6 +126,8 @@ func _theater_kid(player):
 	print("%s forces %s to discard 2 cards" % [player.player_name, target.player_name])
 	
 	target.update_ui()
+	await _delay_action()
+	
 	if target is AIPlayer:
 		for j in 2:
 			if target.hand.is_empty(): break
@@ -122,8 +138,10 @@ func _theater_kid(player):
 				if selected.card_type == CardConstants.CardType.CHARACTER:
 					await apply((selected as CardCharacterData).character_type, target)
 				target.discard_from_hand(selected)
-				deck.discard_card(selected)
 				target.update_ui()
+				await _delay_action()
+				deck.discard_card(selected)
+				await _delay_action()
 	else:
 		await _force_human_discard(target, 2)
 	await _enforce_hand_limit(target)
@@ -145,11 +163,14 @@ func _class_president():
 			continue
 			
 		from_player.discard_from_hand(card)
+		from_player.update_ui()
+		await _delay_action()
 		to_player.add_card_to_hand(card)
+		to_player.update_ui()
+		await _delay_action()
+		
 		print("%s gave a card to %s" % [from_player.player_name, to_player.player_name])
 		
-		from_player.update_ui()
-		to_player.update_ui()
 		if card.card_type == CardConstants.CardType.CHARACTER:
 			await apply((card as CardCharacterData).character_type, to_player)
 		await _enforce_hand_limit(to_player)
@@ -177,13 +198,17 @@ func _art_teacher():
 				if c: cards.append(c)
 		for card in cards:
 			from_player.discard_from_hand(card)
+			from_player.update_ui()
+			await _delay_action()
 			to_player.add_card_to_hand(card)
+			to_player.update_ui()
+			await _delay_action()
+			
 			print("%s gave card to %s" % [from_player.player_name, to_player.player_name])
 			
 			if card.card_type == CardConstants.CardType.CHARACTER:
 				await apply((card as CardCharacterData).character_type, to_player)
-		from_player.update_ui()
-		to_player.update_ui()
+				
 		await _enforce_hand_limit(to_player)
 
 func _bad_boy():
@@ -196,12 +221,17 @@ func _bad_boy():
 		print("Prompting %s to discard a random card" % p.player_name)
 		var card: CardData = p.hand[randi() % p.hand.size()] if p is AIPlayer else _discard_random_card_from_player(p)
 		p.discard_from_hand(card)
+		p.update_ui();
+		await _delay_action()
 		deck.discard_card(card)
+		await _delay_action()
 		print("%s discarded %s" % [p.player_name, card.card_name])
 		
 		if card.card_type == CardConstants.CardType.CHARACTER:
 			await apply((card as CardCharacterData).character_type, p)
 		p.update_ui()
+		await _delay_action()
+		
 		await _enforce_hand_limit(p)
 
 func _history_teacher():
@@ -216,7 +246,10 @@ func _history_teacher():
 			for i in num:
 				var card = p.pick_discard_card()
 				p.discard_from_hand(card)
+				p.update_ui()
+				await _delay_action()
 				deck.discard_card(card)
+				await _delay_action()
 				print("%s discarded %s" % [p.player_name, card.card_name])
 				
 				if card.card_type == CardConstants.CardType.CHARACTER:
@@ -228,12 +261,17 @@ func _history_teacher():
 				var selected: CardData = await p.action_requested
 				if selected:
 					p.discard_from_hand(selected)
+					p.update_ui()
+					await _delay_action()
 					deck.discard_card(selected)
+					await _delay_action()
 					print("%s discarded %s" % [p.player_name, selected.card_name])
 					
 					if selected.card_type == CardConstants.CardType.CHARACTER:
 						await apply((selected as CardCharacterData).character_type, p)
 		p.update_ui()
+		await _delay_action()
+		
 		await _enforce_hand_limit(p)
 
 # === SHARED HELPERS ===
@@ -242,6 +280,8 @@ func _enforce_hand_limit(player: BasePlayer):
 	while player.hand.size() > 7:
 		print("%s has too many cards. Forcing discard..." % player.player_name)
 		player.update_ui()
+		await _delay_action()
+		
 		if player is AIPlayer:
 			var discard = player.pick_discard_card()
 			player.emit_signal("action_requested", discard)
@@ -250,8 +290,10 @@ func _enforce_hand_limit(player: BasePlayer):
 			if selected.card_type == CardConstants.CardType.CHARACTER:
 				await apply((selected as CardCharacterData).character_type, player)
 			player.discard_from_hand(selected)
-			deck.discard_card(selected)
 			player.update_ui()
+			await _delay_action()
+			deck.discard_card(selected)
+			await _delay_action()
 
 func _force_human_discard(player: Player, count: int):
 	for i in count:
@@ -259,10 +301,17 @@ func _force_human_discard(player: Player, count: int):
 		var card: CardData = await player.action_requested
 		if not card: break
 		player.discard_from_hand(card)
-		deck.discard_card(card)
 		player.update_ui()
+		await _delay_action()
+		deck.discard_card(card)
+		await _delay_action()
+		
 		if card.card_type == CardConstants.CardType.CHARACTER:
 			await apply((card as CardCharacterData).character_type, player)
 
 func _discard_random_card_from_player(player: BasePlayer) -> CardData:
 	return player.hand[randi() % player.hand.size()]
+
+func _delay_action(duration := 1.0) -> void:
+	await get_tree().process_frame
+	await get_tree().create_timer(duration).timeout

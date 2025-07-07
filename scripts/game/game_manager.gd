@@ -23,6 +23,7 @@ func _ready():
 	setup_deck()
 	setup_players()
 	effect_handler = CharacterEffectHandler.new()
+	add_child(effect_handler)
 	effect_handler.setup(deck, players)
 	
 	start_game()
@@ -49,9 +50,12 @@ func start_game():
 		print("Dealing cards for player " + player.player_name)
 		for i in range(5):
 			var card = deck.draw_card()
-			player.add_card_to_hand(card)
 			print("Dealt card: " + card.card_name)
-		player.update_ui()
+			
+			player.add_card_to_hand(card)
+			player.update_ui()
+			await get_tree().create_timer(1).timeout
+			
 	call_deferred("run_game_loop")
 
 func run_game_loop():
@@ -70,7 +74,7 @@ func play_turn(current_player: BasePlayer):
 	var drawn_card = deck.draw_card()
 	current_player.add_card_to_hand(drawn_card)
 	current_player.update_ui()
-	await get_tree().process_frame
+	await get_tree().create_timer(1).timeout
 
 	if current_player.has_full_rainbow():
 		is_game_active = false
@@ -82,7 +86,11 @@ func play_turn(current_player: BasePlayer):
 	var selected_card = await current_player.action_requested
 	if selected_card != null:
 		current_player.discard_from_hand(selected_card)
+		current_player.update_ui()
+		await get_tree().create_timer(1).timeout
 		deck.discard_card(selected_card)
+		await get_tree().create_timer(1).timeout
+		
 		if selected_card.card_type == CardConstants.CardType.CHARACTER:
 			await effect_handler.apply((selected_card as CardCharacterData).character_type, current_player)
 
