@@ -68,6 +68,7 @@ func run_game_loop():
 	show_victory_screen(current_player)
 
 func play_turn(current_player: BasePlayer):
+	next_player_sfx()
 	current_player.toggle_is_player_turn(true)
 	print("Starting %s turn..." % current_player.player_name)
 	current_player.update_ui()
@@ -100,8 +101,8 @@ func play_turn(current_player: BasePlayer):
 			await show_effect_message(effect_card.card_description)
 			await effect_handler.apply((selected_card as CardCharacterData).character_type, current_player)
 
-	current_player.update_ui()
 	current_player.toggle_is_player_turn(false)
+	current_player.update_ui()
 	await get_tree().process_frame
 	print("Turn finished for %s" % current_player.player_name)
 	await end_turn()
@@ -132,4 +133,8 @@ func draw_card_sfx():
 
 func discard_card_sfx():
 	var player = get_parent().get_node("SFXPlayers/SFXDiscardCard")
+	player.play()
+
+func next_player_sfx():
+	var player = get_parent().get_node("SFXPlayers/SFXNextPlayer")
 	player.play()

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://xvhnqybr8r32"
+path="res://.godot/imported/Cute Bossa Nova.wav-fb16e9a574e0d07e0f94c8b75a0181ef.sample"
+
+[deps]
+
+source_file="res://assets/sounds/Cute Bossa Nova.wav"
+dest_files=["res://.godot/imported/Cute Bossa Nova.wav-fb16e9a574e0d07e0f94c8b75a0181ef.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

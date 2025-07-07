@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://degl0hwf82qn6"]
+[gd_scene load_steps=7 format=3 uid="uid://degl0hwf82qn6"]
 
 [ext_resource type="Texture2D" uid="uid://bvm7ch7lf0whb" path="res://assets/backgrounds/Office_1280x720.png" id="1_0sr1o"]
 [ext_resource type="Texture2D" uid="uid://bl777wtjgg447" path="res://assets/cards/core/Poker_Table_Brown.png" id="1_7h61r"]
 [ext_resource type="Script" uid="uid://bt040nehryuw3" path="res://scripts/game/game_manager.gd" id="1_sul5r"]
 [ext_resource type="AudioStream" uid="uid://dgdnn7qdd7ogb" path="res://assets/sounds/GP_Draw_2.wav" id="4_kelw5"]
 [ext_resource type="AudioStream" uid="uid://cllk00csqbvnf" path="res://assets/sounds/GP_Discard_2.wav" id="5_lfrn8"]
+[ext_resource type="AudioStream" uid="uid://bk0bwu7wqyp10" path="res://assets/sounds/UI Message Appear 01.wav" id="6_5i0tg"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -119,3 +120,6 @@ stream = ExtResource("4_kelw5")
 
 [node name="SFXDiscardCard" type="AudioStreamPlayer" parent="SFXPlayers"]
 stream = ExtResource("5_lfrn8")
+
+[node name="SFXNextPlayer" type="AudioStreamPlayer" parent="SFXPlayers"]
+stream = ExtResource("6_5i0tg")

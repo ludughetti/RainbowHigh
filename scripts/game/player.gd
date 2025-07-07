@@ -16,7 +16,7 @@ func update_ui():
 		card_ui.connect("card_clicked", Callable(self, "_on_card_clicked"))
 		hand_container.add_child(card_ui)
 
-	pass_button.visible = is_player_turn and hand.size() <= 7
+	pass_button.visible = is_player_turn
 
 func _on_card_clicked(card: CardData):
 	emit_signal("action_requested", card)
